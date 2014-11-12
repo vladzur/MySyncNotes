@@ -128,7 +128,7 @@ public class NotesListFragment extends Fragment {
         DatabaseHelper dbh = new DatabaseHelper(getActivity());
         SQLiteDatabase db = dbh.getWritableDatabase();
         ArrayList<Note> items = new ArrayList<Note>();
-        Cursor c = db.rawQuery("SELECT * FROM notes", null);
+        Cursor c = db.rawQuery("SELECT * FROM notes ORDER BY created DESC", null);
         while (c.moveToNext()) {
             Note nota = new Note();
             nota.setId(c.getString(c.getColumnIndex("id")));

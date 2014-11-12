@@ -7,30 +7,34 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:background="@color/background_material_dark">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/button_save"
-            android:layout_gravity="bottom|right" />
+            android:layout_gravity="bottom|right"
+            style="@style/Theme.AppCompat.Light.DarkActionBar" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/input_title"
             android:hint="Title"
-            />
+            android:textColorHint="@color/abc_primary_text_material_dark"
+            android:textColor="@color/abc_primary_text_material_dark"
+            android:capitalize="sentences" />
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:ems="10"
             android:id="@+id/input_body"
             android:nestedScrollingEnabled="false"
-            android:minLines="15"
+            android:minLines="10"
             android:gravity="top"
-            android:capitalize="sentences" />
+            android:textColor="@color/abc_primary_text_material_dark"
+            />
 
 
     </LinearLayout>

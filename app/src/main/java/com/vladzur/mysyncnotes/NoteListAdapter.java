@@ -52,6 +52,7 @@ public class NoteListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.titulo = (TextView) view.findViewById(R.id.titulo);
             holder.fecha = (TextView) view.findViewById(R.id.fecha);
+            holder.cuerpo = (TextView) view.findViewById(R.id.cuerpo);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -61,6 +62,7 @@ public class NoteListAdapter extends BaseAdapter {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         holder.titulo.setText(l.getTitle());
         holder.fecha.setText(sdf.format(created));
+        holder.cuerpo.setText(l.getBody());
 
         return view;
     }
@@ -73,5 +75,6 @@ public class NoteListAdapter extends BaseAdapter {
     public static class ViewHolder {
         public TextView titulo;
         public TextView fecha;
+        public TextView cuerpo;
     }
 }

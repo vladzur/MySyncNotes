@@ -130,6 +130,8 @@ public class NoteFragment extends Fragment {
         note.setTitle(inputTitle.getText().toString());
         note.setBody(inputBody.getText().toString());
         note.Save();
+        Fragment fragment = new NotesListFragment();
+        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.vladzur.mysyncnotes;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -246,15 +247,14 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_user) {
-            Toast.makeText(getActivity(), "User action.", Toast.LENGTH_SHORT).show();
-            return true;
+        if (item.getItemId() == R.id.action_new) {
+            Fragment fragment = new NoteFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
         }
 
-        if (item.getItemId() == R.id.action_sync) {
-            Toast.makeText(getActivity(), "Sync action.", Toast.LENGTH_SHORT).show();
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
