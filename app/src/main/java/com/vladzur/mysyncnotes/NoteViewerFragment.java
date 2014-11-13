@@ -1,40 +1,29 @@
 package com.vladzur.mysyncnotes;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.vladzur.mysyncnotes.Database.DatabaseHelper;
 import com.vladzur.mysyncnotes.Model.Note;
-
-import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NotesListFragment.OnFragmentInteractionListener} interface
+ * {@link NoteViewerFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NotesListFragment#newInstance} factory method to
+ * Use the {@link NoteViewerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotesListFragment extends Fragment {
+public class NoteViewerFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM1 = "id";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
@@ -49,11 +38,11 @@ public class NotesListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NotesList.
+     * @return A new instance of fragment NoteViewerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NotesListFragment newInstance(String param1, String param2) {
-        NotesListFragment fragment = new NotesListFragment();
+    public static NoteViewerFragment newInstance(String param1, String param2) {
+        NoteViewerFragment fragment = new NoteViewerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,7 +50,7 @@ public class NotesListFragment extends Fragment {
         return fragment;
     }
 
-    public NotesListFragment() {
+    public NoteViewerFragment() {
         // Required empty public constructor
     }
 
@@ -78,7 +67,14 @@ public class NotesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notes_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_note_viewer, container, false);
+        TextView titulo = (TextView) rootView.findViewById(R.id.text_titulo);
+        TextView cuerpo = (TextView) rootView.findViewById(R.id.text_cuerpo);
+        Note nota = new Note(getActivity());
+        nota.Read(mParam1);
+        titulo.setText(nota.getTitle());
+        cuerpo.setText(nota.getBody());
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,7 +87,7 @@ public class NotesListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-       /* try {
+        /*try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
@@ -118,54 +114,6 @@ public class NotesListFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        ActualizarLista();
-    }
-
-    private ArrayList<Note> GetItems() {
-        DatabaseHelper dbh = new DatabaseHelper(getActivity());
-        SQLiteDatabase db = dbh.getWritableDatabase();
-        ArrayList<Note> items = new ArrayList<Note>();
-        Cursor c = db.rawQuery("SELECT * FROM notes ORDER BY created DESC", null);
-        while (c.moveToNext()) {
-            Note nota = new Note();
-            nota.setId(c.getString(c.getColumnIndex("id")));
-            nota.setTitle(c.getString(c.getColumnIndex("title")));
-            nota.setCreated(c.getLong(c.getColumnIndex("created")));
-            nota.setBody(c.getString(c.getColumnIndex("body")));
-            items.add(nota);
-        }
-        c.close();
-        db.close();
-        dbh.close();
-        return items;
-    }
-
-    public void ActualizarLista() {
-        ListView listaTareas = (ListView) getActivity().findViewById(R.id.listNotes);
-        ArrayList<Note> items = GetItems();
-        NoteListAdapter adapter =  new NoteListAdapter(getActivity(), items);
-        listaTareas.setAdapter(adapter);
-        listaTareas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Note item = (Note) parent.getItemAtPosition(position);
-                String id_note = item.getId();
-                Bundle arguments = new Bundle();
-                arguments.putString("id", id_note);
-                Fragment fragment = new NoteViewerFragment();
-                fragment.setArguments(arguments);
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .addToBackStack("ViewNote")
-                        .commit();
-            }
-        });
     }
 
 }

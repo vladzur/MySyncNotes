@@ -57,17 +57,21 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
+        String tag = "";
         switch (position) {
             case 0:
                 fragment = new NotesListFragment();
+                tag = "NoteList";
                 break;
             case 1:
                 fragment = new NoteFragment();
+                tag = "NewNote";
                 break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
+                .addToBackStack(tag)
                 .commit();
     }
 

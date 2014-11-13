@@ -252,6 +252,7 @@ public class NavigationDrawerFragment extends Fragment {
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment)
+                    .addToBackStack("NewNote")
                     .commit();
         }
 

@@ -2,6 +2,7 @@ package com.vladzur.mysyncnotes.Model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
 import java.util.UUID;
 
@@ -78,6 +79,21 @@ public class Note extends BaseModel {
         registro.put("created", getCreated());
         registro.put("updated", getUpdated());
         Db.replace("notes", null, registro);
+        Db.close();
+    }
+
+    public void Read(String id) {
+        Db = Dbh.getWritableDatabase();
+        Cursor c = Db.rawQuery("SELECT * FROM notes WHERE id = ?", new String[]{id});
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            setId(c.getString(c.getColumnIndex("id")));
+            setTitle(c.getString(c.getColumnIndex("title")));
+            setBody(c.getString(c.getColumnIndex("body")));
+            setCreated(c.getLong(c.getColumnIndex("created")));
+            setUpdated(c.getLong(c.getColumnIndex("updated")));
+        }
+        c.close();
         Db.close();
     }
 }
