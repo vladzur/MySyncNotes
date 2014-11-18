@@ -2,7 +2,9 @@ package com.vladzur.mysyncnotes.Model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -79,5 +81,40 @@ public class Note extends BaseModel {
         registro.put("updated", getUpdated());
         Db.replace("notes", null, registro);
         Db.close();
+    }
+
+    public void Read(String id) {
+        Db = Dbh.getWritableDatabase();
+        Cursor c = Db.rawQuery("SELECT * FROM notes WHERE id = ?", new String[]{id});
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            setId(c.getString(c.getColumnIndex("id")));
+            setTitle(c.getString(c.getColumnIndex("title")));
+            setBody(c.getString(c.getColumnIndex("body")));
+            setCreated(c.getLong(c.getColumnIndex("created")));
+            setUpdated(c.getLong(c.getColumnIndex("updated")));
+        }
+        c.close();
+        Db.close();
+    }
+
+    public ArrayList<Note> All() {
+        ArrayList<Note> notas = new ArrayList<Note>();
+        Db = Dbh.getWritableDatabase();
+        Cursor c = Db.rawQuery("SELECT * FROM notes ORDER BY created DESC", null);
+        if (c.getCount() > 0) {
+            while (c.moveToNext()) {
+                Note nota = new Note();
+                nota.setId(c.getString(c.getColumnIndex("id")));
+                nota.setTitle(c.getString(c.getColumnIndex("title")));
+                nota.setBody(c.getString(c.getColumnIndex("body")));
+                nota.setCreated(c.getLong(c.getColumnIndex("created")));
+                nota.setUpdated(c.getLong(c.getColumnIndex("updated")));
+                notas.add(nota);
+            }
+        }
+        c.close();
+        Db.close();
+        return notas;
     }
 }
