@@ -101,7 +101,7 @@ public class Note extends BaseModel {
     public ArrayList<Note> All() {
         ArrayList<Note> notas = new ArrayList<Note>();
         Db = Dbh.getWritableDatabase();
-        Cursor c = Db.rawQuery("SELECT * FROM notes ORDER BY created DESC", new String[]{id});
+        Cursor c = Db.rawQuery("SELECT * FROM notes ORDER BY created DESC", null);
         if (c.getCount() > 0) {
             while (c.moveToNext()) {
                 Note nota = new Note();

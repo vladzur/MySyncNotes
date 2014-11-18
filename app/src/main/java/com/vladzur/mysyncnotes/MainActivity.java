@@ -1,5 +1,6 @@
 package com.vladzur.mysyncnotes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -30,18 +31,7 @@ public class MainActivity extends ActionBarActivity {
             System.exit(1);
         }
         setContentView(R.layout.activity_main);
-        final ListView listaNotas = (ListView) findViewById(R.id.listView);
-        Note nota = new Note(this);
-        ArrayList<Note> notas = nota.All();
-        NoteListAdapter adapter = new NoteListAdapter(this, notas);
-        listaNotas.setAdapter(adapter);
-        listaNotas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Note item = (Note) parent.getItemAtPosition(position);
-
-            }
-        });
+        updateContent();
     }
 
 
@@ -61,9 +51,33 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_new) {
-
+            Intent intent = new Intent(this, NewNoteActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateContent();
+    }
+
+    public void updateContent() {
+        ListView listaNotas = (ListView) findViewById(R.id.listView);
+        Note nota = new Note(this);
+        ArrayList<Note> notas = nota.All();
+        NoteListAdapter adapter = new NoteListAdapter(this, notas);
+        listaNotas.setAdapter(adapter);
+        listaNotas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Note item = (Note) parent.getItemAtPosition(position);
+                Intent intent = new Intent(parent.getContext(), ViewNoteActivity.class);
+                intent.putExtra("id", item.getId());
+                startActivity(intent);
+            }
+        });
     }
 }
