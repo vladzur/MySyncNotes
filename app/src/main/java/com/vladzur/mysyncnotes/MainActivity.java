@@ -70,6 +70,7 @@ public class MainActivity extends ActionBarActivity {
         ArrayList<Note> notas = nota.All();
         NoteListAdapter adapter = new NoteListAdapter(this, notas);
         listaNotas.setAdapter(adapter);
+        //OnClickListener
         listaNotas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,6 +78,13 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(parent.getContext(), ViewNoteActivity.class);
                 intent.putExtra("id", item.getId());
                 startActivity(intent);
+            }
+        });
+        //OnLongClickListener
+        listaNotas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
             }
         });
     }

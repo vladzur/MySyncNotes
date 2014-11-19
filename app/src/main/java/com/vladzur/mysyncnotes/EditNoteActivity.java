@@ -5,26 +5,26 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.vladzur.mysyncnotes.Model.Note;
 
 
-public class ViewNoteActivity extends ActionBarActivity {
+public class EditNoteActivity extends ActionBarActivity {
 
-    private String id;
     private Note nota;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_note);
+        setContentView(R.layout.activity_edit_note);
         Intent intent = getIntent();
         this.id = intent.getStringExtra("id");
         nota = new Note(this);
         nota.Read(this.id);
-        TextView title = (TextView) findViewById(R.id.textTitle);
-        TextView body = (TextView) findViewById(R.id.textBody);
+        EditText title = (EditText) findViewById(R.id.editTitle);
+        EditText body = (EditText) findViewById(R.id.editBody);
         title.setText(nota.getTitle());
         body.setText(nota.getBody());
     }
@@ -33,7 +33,7 @@ public class ViewNoteActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_view_note, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_note, menu);
         return true;
     }
 
@@ -45,12 +45,19 @@ public class ViewNoteActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_edit) {
-            Intent intent = new Intent(this, EditNoteActivity.class);
-            intent.putExtra("id", nota.getId());
-            startActivity(intent);
+        if (id == R.id.action_save) {
+            SaveNote();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void SaveNote() {
+        EditText title = (EditText) findViewById(R.id.editTitle);
+        EditText body = (EditText) findViewById(R.id.editBody);
+        nota.setTitle(title.getText().toString());
+        nota.setBody(body.getText().toString());
+        nota.Save();
+        finish();
     }
 }

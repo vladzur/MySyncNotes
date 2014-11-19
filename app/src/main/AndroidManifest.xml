@@ -10,7 +10,7 @@
         <activity
             android:name="com.vladzur.mysyncnotes.MainActivity"
             android:label="@string/app_name">
-            <intent-filter>
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -18,10 +18,13 @@
         </activity>
         <activity
             android:name="com.vladzur.mysyncnotes.NewNoteActivity"
-            android:label="@string/title_activity_new_note"></activity>
+            android:label="@string/title_activity_new_note" />
         <activity
             android:name="com.vladzur.mysyncnotes.ViewNoteActivity"
-            android:label="@string/title_activity_view_note"></activity>
+            android:label="@string/title_activity_view_note" />
+        <activity
+            android:name="com.vladzur.mysyncnotes.EditNoteActivity"
+            android:label="@string/title_activity_edit_note"></activity>
     </application>
 
 </manifest>
