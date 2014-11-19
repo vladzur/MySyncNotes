@@ -45,8 +45,10 @@ public class ViewNoteActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_edit) {
+            Intent intent = new Intent(this, EditNoteActivity.class);
+            intent.putExtra("id", nota.getId());
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
