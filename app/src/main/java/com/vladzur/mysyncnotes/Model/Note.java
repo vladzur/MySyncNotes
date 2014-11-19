@@ -117,4 +117,9 @@ public class Note extends BaseModel {
         Db.close();
         return notas;
     }
+
+    public void Delete() {
+        Db = Dbh.getWritableDatabase();
+        Db.delete("notes", "id=?", new String[]{getId()});
+    }
 }

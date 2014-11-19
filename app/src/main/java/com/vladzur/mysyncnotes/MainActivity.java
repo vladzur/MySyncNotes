@@ -1,5 +1,7 @@
 package com.vladzur.mysyncnotes;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -84,8 +86,32 @@ public class MainActivity extends ActionBarActivity {
         listaNotas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Note item = (Note) parent.getItemAtPosition(position);
+                DeleteNote(item.getId());
                 return false;
             }
         });
+    }
+
+    public void DeleteNote(String id) {
+        final Note note = new Note(this);
+        note.Read(id);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_dialog_title)
+                .setMessage(R.string.delete_dialog_message)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                        note.Delete();
+                        updateContent();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }
