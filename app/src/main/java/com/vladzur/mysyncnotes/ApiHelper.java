@@ -49,7 +49,7 @@ public class ApiHelper {
 
     public JSONArray callAPIList(String url) {
         Log.d(TAG, url);
-        String resp = "";
+        String resp;
         JSONArray returned = null;
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
