@@ -14,5 +14,7 @@
     <string name="title_activity_edit_note">Editar</string>
     <string name="delete_dialog_title">Borrar nota</string>
     <string name="delete_dialog_message">¿Desea eliminar esta nota?</string>
+    <string name="action_share">Compartir</string>
+    <string name="send_to">Enviar a</string>
 
 </resources>
