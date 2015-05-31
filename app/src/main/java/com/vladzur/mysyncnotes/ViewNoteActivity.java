@@ -51,6 +51,15 @@ public class ViewNoteActivity extends ActionBarActivity {
             startActivity(intent);
         }
 
+        //Share button
+        if (id == R.id.action_share) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, nota.getBody());
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }
